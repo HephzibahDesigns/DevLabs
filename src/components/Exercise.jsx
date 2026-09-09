@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { isExerciseSolved } from "../utils/exerciseState";
+import CopyButton from "./CopyButton";
 
 // Feedback boxes (hint / correct / incorrect / check result) all use this
 // same fade-and-rise-in animation so they feel consistent.
@@ -7,10 +8,14 @@ const feedbackAnimation = {
   initial: { opacity: 0, y: -6, height: 0 },
   animate: { opacity: 1, y: 0, height: "auto" },
   exit: { opacity: 0, y: -6, height: 0 },
-  transition: { duration: 0.2 }
+  transition: { duration: 0.2 },
 };
 
-export default function Exercise({ ex: exercise, state: exerciseState, onChange }) {
+export default function Exercise({
+  ex: exercise,
+  state: exerciseState,
+  onChange,
+}) {
   const isSolved = isExerciseSolved(exercise, exerciseState);
 
   // Records which multiple-choice option the user picked. Locked once
@@ -29,7 +34,9 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
   const currentCodeValue = exerciseState.codeInput ?? exercise.starter ?? "";
   const codeCheckPassed =
     exercise.type === "code" &&
-    exercise.checks.every((checkPattern) => checkPattern.test(currentCodeValue));
+    exercise.checks.every((checkPattern) =>
+      checkPattern.test(currentCodeValue)
+    );
 
   return (
     <div
@@ -39,7 +46,9 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
       }
     >
       <div className="mb-3 flex items-start justify-between gap-2.5">
-        <div className="text-[14.5px] leading-relaxed text-ink">{exercise.q}</div>
+        <div className="text-[14.5px] leading-relaxed text-ink">
+          {exercise.q}
+        </div>
         <div
           className={
             "whitespace-nowrap pt-0.5 font-mono text-[11px] " +
@@ -69,11 +78,21 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
             return (
               <motion.button
                 key={optionIndex}
-                whileHover={exerciseState.mcqAnswered == null ? { scale: 1.01 } : undefined}
-                whileTap={exerciseState.mcqAnswered == null ? { scale: 0.98 } : undefined}
+                whileHover={
+                  exerciseState.mcqAnswered == null
+                    ? { scale: 1.01 }
+                    : undefined
+                }
+                whileTap={
+                  exerciseState.mcqAnswered == null
+                    ? { scale: 0.98 }
+                    : undefined
+                }
                 className={
                   optionClassName +
-                  (exerciseState.mcqAnswered != null ? " cursor-default" : " cursor-pointer")
+                  (exerciseState.mcqAnswered != null
+                    ? " cursor-default"
+                    : " cursor-pointer")
                 }
                 disabled={exerciseState.mcqAnswered != null}
                 onClick={() => handleMcqOptionClick(optionIndex)}
@@ -115,7 +134,9 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
               whileHover={{ borderColor: "var(--color-accent, #3d8bde)" }}
               whileTap={{ scale: 0.96 }}
               className="rounded-md border border-line bg-transparent px-3.5 py-[7px] font-sans text-[13px] font-semibold text-ink"
-              onClick={() => onChange({ showSolution: !exerciseState.showSolution })}
+              onClick={() =>
+                onChange({ showSolution: !exerciseState.showSolution })
+              }
             >
               Show solution
             </motion.button>
@@ -125,9 +146,12 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
               <motion.div
                 key="solution"
                 {...feedbackAnimation}
-                className="mt-2.5 overflow-hidden whitespace-pre-wrap rounded-md border border-dashed border-lineSoft bg-bg px-3.5 py-2.5 font-mono text-[12.5px] text-muted"
+                className="relative mt-2.5 overflow-hidden rounded-md border border-dashed border-lineSoft bg-bg"
               >
-                {exercise.solution}
+                <pre className="whitespace-pre-wrap px-3.5 py-2.5 pr-11 font-mono text-[12.5px] text-muted">
+                  {exercise.solution}
+                </pre>
+                <CopyButton text={exercise.solution} className="absolute right-2 top-2" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -161,7 +185,9 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
                 : "border-bad bg-badDim text-badText")
             }
           >
-            {exerciseState.mcqAnswered === exercise.correct ? "Correct." : "Not quite."}
+            {exerciseState.mcqAnswered === exercise.correct
+              ? "Correct."
+              : "Not quite."}
             <span
               className={
                 "mt-1.5 block " +
@@ -192,7 +218,12 @@ export default function Exercise({ ex: exercise, state: exerciseState, onChange 
             {codeCheckPassed
               ? "That checks out."
               : "Not quite there yet — try the hint, or peek at the solution."}
-            <span className={"mt-1.5 block " + (codeCheckPassed ? "text-goodTextDim" : "text-muted")}>
+            <span
+              className={
+                "mt-1.5 block " +
+                (codeCheckPassed ? "text-goodTextDim" : "text-muted")
+              }
+            >
               {exercise.explain}
             </span>
           </motion.div>

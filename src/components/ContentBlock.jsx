@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { highlightCode } from "../utils/highlightCode";
+import CopyButton from "./CopyButton";
 
 export default function ContentBlock({ block }) {
   return (
@@ -12,7 +13,7 @@ export default function ContentBlock({ block }) {
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      <h2 className="mb-2 text-base font-semibold text-ink">{block.h}</h2>
+      <h2 className="mb-2 font-heading text-base font-semibold text-ink">{block.h}</h2>
       <p className="mb-3 max-w-[72ch] text-[14.5px] leading-relaxed text-ink2">{block.p}</p>
       {block.tip && (
         <div className="mb-3.5 mt-1 flex max-w-[72ch] items-start gap-2.5 rounded-md border border-line border-l-[3px] border-l-accent bg-panel2 px-3.5 py-3 text-[13.5px] leading-relaxed text-ink2">
@@ -23,9 +24,14 @@ export default function ContentBlock({ block }) {
         </div>
       )}
       {block.code && (
-        <pre className="mb-1.5 overflow-x-auto rounded-md border border-lineSoft bg-bg px-4 py-3.5 font-mono text-[13px] leading-relaxed">
-          <code className="whitespace-pre">{highlightCode(block.code)}</code>
-        </pre>
+        // `relative` so the copy button can sit pinned to the top-right
+        // corner of the code block without affecting its layout.
+        <div className="relative">
+          <pre className="mb-1.5 overflow-x-auto rounded-md border border-lineSoft bg-bg px-4 py-3.5 pr-11 font-mono text-[13px] leading-relaxed">
+            <code className="whitespace-pre">{highlightCode(block.code)}</code>
+          </pre>
+          <CopyButton text={block.code} className="absolute right-2.5 top-2.5" />
+        </div>
       )}
     </motion.section>
   );
