@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 
+// The DevLabs mark: a lab flask (bubbling liquid) with a terminal caret
+// at the neck — "Dev" (the prompt) meets "Labs" (the flask) in one icon.
 export function LogoMark({ size = 40, className = "" }) {
   return (
     <motion.svg
@@ -77,17 +79,33 @@ export function LogoMark({ size = 40, className = "" }) {
 
 // Full lockup: icon + "DevLabs" wordmark, used on the landing page and
 // anywhere the brand should be introduced rather than just referenced.
+// `showTagline` opts in to the "interactive developer courses" line
+// underneath, for places (like a hero) that want the full brand block.
 export default function Logo({
   size = 40,
   textSize = "text-2xl",
+  showTagline = false,
   className = "",
 }) {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <LogoMark size={size} />
-      <span className={`font-mono font-bold text-ink ${textSize}`}>
-        Dev<span className="text-accent">Labs</span>
-      </span>
+    <div className={`flex flex-col ${className}`}>
+      <div className="flex items-center gap-3">
+        <LogoMark size={size} />
+        <span className={`flex items-center font-mono font-bold ${textSize}`}>
+          {/* "Dev" is deliberately faded — "Labs" (the flask half of the
+              mark) is the half that carries the brand color. */}
+          <span className="text-ink/30">Dev</span>
+          <span className="text-accent">Labs</span>
+          {/* Blinking terminal cursor, styled like a prompt waiting for
+              input. Hard on/off (not a smooth fade) to read as a real
+              cursor blink rather than a pulsing glow. */}
+        </span>
+      </div>
+      {showTagline && (
+        <span className="mt-1.5 font-mono text-xs tracking-wide text-muted">
+          interactive developer courses
+        </span>
+      )}
     </div>
   );
 }

@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { COURSES, CATEGORY_ORDER, totalExercisesFor } from "../courses";
 import { isExerciseSolved, exId } from "../utils/exerciseState";
 import { loadState } from "../utils/persistence";
-// import Logo from "../assets/devlabs_logo.png";
 import Logo from "./Logo";
 
 // Staggers the cards inside one category group so they animate in
@@ -72,8 +71,9 @@ export default function CourseHome({ onSelect, onBackToLanding }) {
             &larr; Back
           </button>
         )}
-
-        <Logo size={44} textSize="text-2xl" className="mb-6" />
+        <Link to="/">
+          <Logo size={36} textSize="text-2xl" className="mb-4" />
+        </Link>
 
         <p className="max-w-[70ch] text-[15px] leading-relaxed text-muted">
           A self-contained, offline course library — languages first, then the
@@ -153,5 +153,3 @@ export default function CourseHome({ onSelect, onBackToLanding }) {
     </div>
   );
 }
-
-// <img src={Logo} alt="Logo Image" className="mb-4 w-96" />

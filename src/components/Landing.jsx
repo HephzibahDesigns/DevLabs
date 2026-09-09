@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import { COURSES, CATEGORY_ORDER, totalExercisesFor } from "../courses";
-// import Logo from "../assets/devlabs_logo.png";
 import Logo from "./Logo";
 
 // Fade-and-rise animation used for the hero text/stats as the page loads.
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0 },
+  visible: { opacity: 1, y: 0 }
 };
 
 // Wraps the three "feature" cards and the stat numbers so their children
@@ -14,8 +13,8 @@ const fadeUp = {
 const staggerContainer = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12 },
-  },
+    transition: { staggerChildren: 0.12 }
+  }
 };
 
 export default function Landing({ onGetStarted }) {
@@ -33,7 +32,7 @@ export default function Landing({ onGetStarted }) {
   // so each section header only renders if it actually has courses under it.
   const categoryGroups = CATEGORY_ORDER.map((categoryName) => ({
     category: categoryName,
-    courses: COURSES.filter((course) => course.category === categoryName),
+    courses: COURSES.filter((course) => course.category === categoryName)
   })).filter((group) => group.courses.length > 0);
 
   return (
@@ -89,10 +88,7 @@ export default function Landing({ onGetStarted }) {
           animate="visible"
           variants={staggerContainer}
         >
-          <motion.div
-            className="flex flex-col items-center gap-0.5"
-            variants={fadeUp}
-          >
+          <motion.div className="flex flex-col items-center gap-0.5" variants={fadeUp}>
             <strong className="text-xl font-bold text-ink sm:text-[22px]">
               {courseCount}
             </strong>
@@ -100,10 +96,7 @@ export default function Landing({ onGetStarted }) {
               courses
             </span>
           </motion.div>
-          <motion.div
-            className="flex flex-col items-center gap-0.5"
-            variants={fadeUp}
-          >
+          <motion.div className="flex flex-col items-center gap-0.5" variants={fadeUp}>
             <strong className="text-xl font-bold text-ink sm:text-[22px]">
               {topicCount}
             </strong>
@@ -111,10 +104,7 @@ export default function Landing({ onGetStarted }) {
               topics
             </span>
           </motion.div>
-          <motion.div
-            className="flex flex-col items-center gap-0.5"
-            variants={fadeUp}
-          >
+          <motion.div className="flex flex-col items-center gap-0.5" variants={fadeUp}>
             <strong className="text-xl font-bold text-ink sm:text-[22px]">
               {exerciseCount}
             </strong>
@@ -140,9 +130,14 @@ export default function Landing({ onGetStarted }) {
           whileHover={{ y: -4, borderColor: "var(--color-accent, #3d8bde)" }}
           transition={{ duration: 0.2 }}
         >
-          <span className="mb-2.5 block text-[22px]" aria-hidden="true">
+          <motion.span
+            className="mb-2.5 block w-fit text-[22px]"
+            aria-hidden="true"
+            whileHover={{ rotate: -12, scale: 1.15 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
             📚
-          </span>
+          </motion.span>
           <h3 className="mb-2 text-[15px] font-semibold text-ink">
             Structured, ground-up lessons
           </h3>
@@ -157,9 +152,14 @@ export default function Landing({ onGetStarted }) {
           whileHover={{ y: -4 }}
           transition={{ duration: 0.2 }}
         >
-          <span className="mb-2.5 block text-[22px]" aria-hidden="true">
+          <motion.span
+            className="mb-2.5 block w-fit text-[22px]"
+            aria-hidden="true"
+            whileHover={{ rotate: [0, -18, 14, 0] }}
+            transition={{ duration: 0.5 }}
+          >
             🛠️
-          </span>
+          </motion.span>
           <h3 className="mb-2 text-[15px] font-semibold text-ink">
             Learn by doing
           </h3>
@@ -174,9 +174,14 @@ export default function Landing({ onGetStarted }) {
           whileHover={{ y: -4 }}
           transition={{ duration: 0.2 }}
         >
-          <span className="mb-2.5 block text-[22px]" aria-hidden="true">
+          <motion.span
+            className="mb-2.5 block w-fit text-[22px]"
+            aria-hidden="true"
+            whileHover={{ scale: [1, 1.25, 1] }}
+            transition={{ duration: 0.4 }}
+          >
             💾
-          </span>
+          </motion.span>
           <h3 className="mb-2 text-[15px] font-semibold text-ink">
             Picks up where you left off
           </h3>

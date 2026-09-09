@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { usePersistentState } from "../hooks/usePersistentState";
 import { exId, isExerciseSolved } from "../utils/exerciseState";
 import { clearState } from "../utils/persistence";
@@ -25,6 +26,10 @@ export default function CoursePlayer({ course, onBack }) {
     `exerciseState:${course.id}`,
     {}
   );
+
+  // Whether the mobile topic drawer is open. Not persisted — it's a
+  // transient bit of UI state, not something worth restoring across visits.
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Merges a partial update (e.g. { checked: true }) into one exercise's
   // saved state, keyed by its exId, without touching any other exercise.
@@ -70,6 +75,7 @@ export default function CoursePlayer({ course, onBack }) {
         progressPct={progressPercent}
         onReset={handleReset}
         onBack={onBack}
+        onToggleSidebar={() => setIsMobileSidebarOpen((open) => !open)}
       />
 
       <div className="flex min-h-0 flex-1">
@@ -78,6 +84,8 @@ export default function CoursePlayer({ course, onBack }) {
           current={currentTopicIndex}
           exerciseState={exerciseState}
           onSelect={goToTopic}
+          isOpen={isMobileSidebarOpen}
+          onClose={() => setIsMobileSidebarOpen(false)}
         />
 
         <TopicContent
